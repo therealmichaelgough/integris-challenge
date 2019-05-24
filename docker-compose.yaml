@@ -1,0 +1,41 @@
+version: "3"
+services:
+  zookeeper:
+    build: ./zookeeper/framework
+    restart: always
+    ports:
+      - "2181:2181"
+    # volumes:
+    #   - ./backup/zookeeper:/tmp/zookeeper
+  kafka:
+    build: ./kafka/framework
+    restart: always
+    ports:
+      - "9092:9092"
+
+  nimbus:
+    build: ./storm/framework/storm-nimbus
+    restart: always
+    ports:
+      - "3772:3772"
+      - "3773:3773"
+      - "6627:6627"
+
+  supervisor:
+    build: ./storm/framework/storm-supervisor
+    restart: always
+    ports:
+      - "8000"
+
+  stormui:
+    build: ./storm/framework/storm-ui
+    restart: always
+    ports:
+      - "8080:8080"
+
+
+networks:
+  datasleuth_portfolio_nginx-proxy:
+    external:
+      name: datasleuth_portfolio_nginx-proxy
+  blog_db_network:
