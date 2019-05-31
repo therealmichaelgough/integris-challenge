@@ -1,0 +1,64 @@
+version: "3"
+services:
+  zookeeper:
+    image: zookeeper:3.4.14
+    restart: always
+    ports:
+      - "2181:2181"
+    networks:
+      - integris-challenge-zookeeper-network
+    # volumes:
+    #   - ./backup/zookeeper:/tmp/zookeeper
+  #kafka:
+  #  image: wurstmeister/kafka
+  #  restart: always
+  #  ports:
+  #    - "9092:9092"
+  #  networks:
+  #    - integris-challenge-zookeeper-network
+
+  nimbus:
+    image: wurstmeister/storm-nimbus
+    restart: always
+    ports:
+      - "3772:3772"
+      - "3773:3773"
+      - "6627:6627"
+    networks:
+      - integris-challenge-zookeeper-network
+      - integris-challenge-storm-network
+
+  supervisor:
+    image: wurstmeister/storm-supervisor
+    restart: always
+    ports:
+      - "8000"
+    networks:
+      - integris-challenge-zookeeper-network
+      - integris-challenge-storm-network
+
+  stormui:
+    image: wurstmeister/storm-ui
+    restart: always
+    ports:
+      - "8081:8081"
+    networks:
+      - integris-challenge-zookeeper-network
+      - integris-challenge-storm-network
+
+  #swarm-visualizer:
+  #  image: dockersamples/visualizer:stable
+  #  ports:
+  #    - "8080:8080"
+  #  volumes:
+  #    - "/var/run/docker.sock:/var/run/docker.sock"
+  #  deploy:
+  #    placement:
+  #      constraints: [node.role == manager]
+  #  networks:
+  #    - integris-challenge-zookeeper-network
+  #    - integris-challenge-storm-network
+
+networks:
+  integris-challenge-zookeeper-network:
+  integris-challenge-storm-network:

@@ -1,41 +1,85 @@
-version: "3"
+version: "3.2"
 services:
   zookeeper:
-    build: ./zookeeper/framework
+    image: zookeeper
+    container_name: zookeeper
     restart: always
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - zookeeper_network
+
+  kafka_broker:
+    image: wurstmeister/kafka:latest
+    container_name: kafka_broker
     ports:
-      - "2181:2181"
-    # volumes:
-    #   - ./backup/zookeeper:/tmp/zookeeper
-  kafka:
-    build: ./kafka/framework
-    restart: always
-    ports:
-      - "9092:9092"
+      - 9092
+    #ports:
+    #  - target: 9094
+    #    published: 9094
+    #    protocol: tcp
+    #    mode: host
+    networks:
+      - zookeeper_network
+    depends_on:
+      - zookeeper
+    environment:
+        KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    #    HOSTNAME_COMMAND: "docker info | grep ^Name: | cut -d' ' -f 2"
+        KAFKA_ADVERTISED_HOST_NAME: localhost
+    #    KAFKA_ADVERTISED_LISTENERS: INSIDE://:9092,OUTSIDE://_{HOSTNAME_COMMAND}:9094
+    #    KAFKA_LISTENERS: INSIDE://:9092,OUTSIDE://:9094
+    #    KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+    #    KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
 
   nimbus:
-    build: ./storm/framework/storm-nimbus
-    restart: always
+    image: storm
+    container_name: storm_nimbus
+    command: storm nimbus
+    depends_on:
+      - zookeeper
+    networks:
+      - zookeeper_network
     ports:
-      - "3772:3772"
-      - "3773:3773"
-      - "6627:6627"
+      - 6627:6627
+    restart: always
 
   supervisor:
-    build: ./storm/framework/storm-supervisor
-    restart: always
-    ports:
-      - "8000"
+    image: storm
+    container_name: storm_supervisor
+    command: storm supervisor
+    depends_on:
+      - nimbus
+      - zookeeper
+    networks:
+      - zookeeper_network
 
-  stormui:
-    build: ./storm/framework/storm-ui
-    restart: always
+  storm_ui:
+    image: storm
+    container_name: storm_ui
+    command: storm ui
+    depends_on:
+      - nimbus
+      - zookeeper
+      - supervisor
     ports:
-      - "8080:8080"
+      - 8080:8080
+    networks:
+      - zookeeper_network
 
+  swarm_ui:
+    image: dockersamples/visualizer
+    container_name: viz
+    ports:
+      - 8081:8080
+    networks:
+      - zookeeper_network
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
 
 networks:
-  datasleuth_portfolio_nginx-proxy:
-    external:
-      name: datasleuth_portfolio_nginx-proxy
-  blog_db_network:
+  zookeeper_network:
