@@ -7,7 +7,8 @@
 
 case "$1" in
         submit)
-            /usr/bin/storm jar target/example-storm-topology-1.0-SNAPSHOT-jar-with-dependencies.jar ${MAINCLASS} ${TOPOLOGY_NAME} ${ZK_HOST} ${ZK_PORT} ${TOPIC} ${NIMBUS_HOST} ${NIMBUS_THRIFT_PORT}
+        #com.michael.storm_word_counter.WordCountTopology
+            /usr/bin/storm jar target/storm_word_counter-1.0-SNAPSHOT-jar-with-dependencies.jar ${MAINCLASS} ${TOPOLOGY_NAME} ${ZK_HOST} ${ZK_PORT} ${TOPIC} ${NIMBUS_HOST} ${NIMBUS_THRIFT_PORT}
             ;;
 
         kill)

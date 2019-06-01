@@ -6,8 +6,11 @@ if [ "$1" == "-h" ]; then
 fi
 
 # get the ip of zookeeper
-BROKER_HOST=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' kafka_broker)
-BROKER_PORT=$(docker inspect --format '{{ (index (index .NetworkSettings.Ports "9092/tcp") 0).HostPort }}' kafka_broker)
+#BROKER_HOST=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' kafka_broker)
+BROKER_HOST=26d273e2f7fe
+#BROKER_HOST=localhost
+#BROKER_PORT=$(docker inspect --format '{{ (index (index .NetworkSettings.Ports "9092/tcp") 0).HostPort }}' kafka_broker)
+BROKER_PORT=9092
 
 # creds for a IAM user restricted to S3 reads on word source bucket
 AWS_ACCESS_KEY_ID=AKIA4LO43XVDAVR7DFA6
@@ -23,4 +26,5 @@ docker run -it --rm \
         -e SLEEP_TIME_IN_MILLIS=$3 \
         -e S3_BUCKET_NAME=$4 \
         --name kafka_producer \
+        --network=integris-challenge_zookeeper_network \
         kafka_producer

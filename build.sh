@@ -3,7 +3,7 @@
 case "$1" in
         initial)
             docker build -t=kafka_producer kafka_producer
-            docker build -t=storm_topology storm
+            docker build -t=storm_topology kafka_storm_word_counter
 
             docker-compose build
             ;;
@@ -13,7 +13,7 @@ case "$1" in
             ;;
 
         storm_topology)
-            docker build -t=storm_topology storm
+            docker build -t=storm_topology kafka_storm_word_counter
             ;;
 
         *)

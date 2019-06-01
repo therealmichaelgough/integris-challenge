@@ -13,7 +13,8 @@ services:
     image: wurstmeister/kafka:latest
     container_name: kafka_broker
     ports:
-      - 9092
+      - 9092:9092
+      - 9094:9094
     #ports:
     #  - target: 9094
     #    published: 9094
@@ -24,13 +25,13 @@ services:
     depends_on:
       - zookeeper
     environment:
+        KAFKA_ADVERTISED_HOST_NAME: 26d273e2f7fe
         KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-    #    HOSTNAME_COMMAND: "docker info | grep ^Name: | cut -d' ' -f 2"
-        KAFKA_ADVERTISED_HOST_NAME: localhost
-    #    KAFKA_ADVERTISED_LISTENERS: INSIDE://:9092,OUTSIDE://_{HOSTNAME_COMMAND}:9094
-    #    KAFKA_LISTENERS: INSIDE://:9092,OUTSIDE://:9094
-    #    KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
-    #    KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+        HOSTNAME_COMMAND: "docker info | grep ^Name: | cut -d' ' -f 2"
+        KAFKA_ADVERTISED_LISTENERS: INSIDE://:9092,OUTSIDE://_{HOSTNAME_COMMAND}:9094
+        KAFKA_LISTENERS: INSIDE://:9092,OUTSIDE://_{HOSTNAME_COMMAND}:9094
+        KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT ,OUTSIDE:PLAINTEXT
+        KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
 
   nimbus:
     image: storm
