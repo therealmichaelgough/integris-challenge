@@ -25,11 +25,10 @@ services:
     depends_on:
       - zookeeper
     environment:
-        KAFKA_ADVERTISED_HOST_NAME: 26d273e2f7fe
         KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
         HOSTNAME_COMMAND: "docker info | grep ^Name: | cut -d' ' -f 2"
-        KAFKA_ADVERTISED_LISTENERS: INSIDE://:9092,OUTSIDE://_{HOSTNAME_COMMAND}:9094
-        KAFKA_LISTENERS: INSIDE://:9092,OUTSIDE://_{HOSTNAME_COMMAND}:9094
+        KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka_broker:9092,OUTSIDE://kafka_broker:9094
+        KAFKA_LISTENERS: INSIDE://kafka_broker:9092,OUTSIDE://kafka_broker:9094
         KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT ,OUTSIDE:PLAINTEXT
         KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
 
@@ -49,6 +48,10 @@ services:
     image: storm
     container_name: storm_supervisor
     command: storm supervisor
+    ports:
+      - 6700:6700
+      - 6701:6701
+      - 6702:6702
     depends_on:
       - nimbus
       - zookeeper

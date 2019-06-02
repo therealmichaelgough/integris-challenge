@@ -17,6 +17,6 @@ case "$1" in
             ;;
 
         *)
-            echo $"Usage: $0 {initial|kafka-producer|storm-topology}"
+            echo $"Usage: $0 {initial|kafka_producer|storm_topology}"
             exit 1
 esac
