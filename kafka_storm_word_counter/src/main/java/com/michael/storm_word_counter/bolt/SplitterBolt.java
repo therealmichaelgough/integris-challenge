@@ -29,6 +29,7 @@ public class SplitterBolt extends BaseRichBolt {
 
         // get tuples from KafkaSpout
         String [] words = tuple.getString(0).split("\\s+");
+        System.out.println(words);
 
         for (int i = 0; i < words.length; i++) {
             // check fo non-word character and replace

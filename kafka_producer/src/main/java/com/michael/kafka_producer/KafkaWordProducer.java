@@ -160,7 +160,7 @@ public class KafkaWordProducer {
                                 producer.send(message);
                                 COUNTER_START++;
                             } catch (IOException e){
-
+                                System.out.println(e);
                                 continue;
                             }
 
