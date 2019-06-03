@@ -5,6 +5,7 @@
 1. Docker installed on the host machine
 2. An S3 bucket containing plain text objects
 2. AWS access keys for an IAM role which reads from the S3 bucket, stored in accessKeys.csv
+3. (Optional) Storm UI is available at storm.datasleuth.agency, given a docker network connection to a running nginx-reverse proxy docker container (uncomment relevant lines in docker-compose)
 
 ### Running the pipeline
 1. docker-compose up -d
