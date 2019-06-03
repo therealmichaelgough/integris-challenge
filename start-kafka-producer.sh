@@ -6,13 +6,13 @@ if [ "$1" == "-h" ]; then
 fi
 
 # get the ip of zookeeper
-#BROKER_HOST=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' kafka_broker)
+BROKER_HOST=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' kafka_broker)
 #BROKER_HOST=26d273e2f7fe
 #BROKER_HOST=localhost
 #BROKER_PORT=$(docker inspect --format '{{ (index (index .NetworkSettings.Ports "9092/tcp") 0).HostPort }}' kafka_broker)
 #BROKER_PORT=9094
-BROKER_HOST=localhost
-BROKER_PORT=9092
+#BROKER_HOST=localhost
+BROKER_PORT=29092
 
 # creds for a IAM user restricted to S3 reads on word source bucket
 # assuming accessKeys.csv is in pwd
