@@ -5,11 +5,13 @@ if [ "$1" == "-h" ]; then
   return
 fi
 
+# e.g. ./start-kafka-producer.sh words 1000 100 mgough-wikipedia
+
 # get the ip of zookeeper
 BROKER_HOST=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' kafka_broker)
 #BROKER_HOST=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' zookeeper)
 #BROKER_HOST=26d273e2f7fe
-#BROKER_HOST=localhost
+#BROKER_HOST=kafka_broker
 #BROKER_PORT=$(docker inspect --format '{{ (index (index .NetworkSettings.Ports "9092/tcp") 0).HostPort }}' kafka_broker)
 #BROKER_PORT=9092
 #BROKER_HOST=localhost

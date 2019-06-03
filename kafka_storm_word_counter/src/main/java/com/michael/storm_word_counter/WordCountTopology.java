@@ -54,7 +54,7 @@ public class WordCountTopology {
     public StormTopology buildTopology(String TOPIC) {
         //brokerHosts = new ZkHosts(ZK_HOST + ":" + ZK_PORT);
         KafkaSpoutConfig spoutConf = KafkaSpoutConfig.builder(this.BROKER_HOST + ":" + this.BROKER_PORT, TOPIC)
-                .setProp(ConsumerConfig.GROUP_ID_CONFIG, "kafka_spout_1")
+                .setProp(ConsumerConfig.GROUP_ID_CONFIG, "1")
                 .build();
 
         //spoutConf.scheme = new SchemeAsMultiScheme(new StringScheme());
