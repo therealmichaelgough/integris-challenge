@@ -18,7 +18,6 @@ import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.regions.Regions;
 
-import props.put(KafkaSpoutConfig.Consumer.GROUP_ID, groupId);
 import org.apache.kafka.common.serialization.Serializer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.KafkaProducer;
